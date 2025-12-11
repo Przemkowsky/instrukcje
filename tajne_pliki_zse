@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Funkcja kwadratowa - Gałęziowski</title>
+<style>
+body {
+    font-family: Arial;
+    background: #e8e8e8;
+    padding: 20px;
+}
+.box {
+    background: white;
+    padding: 20px;
+    width: 500px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 12px gray;
+}
+input {
+    width: 60px;
+    padding: 5px;
+}
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+pre {
+    background: #f2f2f2;
+    padding: 15px;
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Funkcja kwadratowa – Przemysław Gałęziowski</h2>
+
+    <label>a: </label><input id="a_gal" type="number"><br><br>
+    <label>b: </label><input id="b_gal" type="number"><br><br>
+    <label>c: </label><input id="c_gal" type="number"><br><br>
+
+    <button onclick="oblicz_gal()">Oblicz</button>
+
+    <h3>Wyniki:</h3>
+    <pre id="wynik_gal"></pre>
+</div>
+
+<script>
+function oblicz_gal() {
+    let a_gal = parseFloat(document.getElementById("a_gal").value);
+    let b_gal = parseFloat(document.getElementById("b_gal").value);
+    let c_gal = parseFloat(document.getElementById("c_gal").value);
+
+    if (isNaN(a_gal) || isNaN(b_gal) || isNaN(c_gal)) {
+        document.getElementById("wynik_gal").textContent = "Wypełnij wszystkie pola!";
+        return;
+    }
+
+    let tekst_gal = "";
+
+    // Wzór funkcji
+    tekst_gal += `f(x) = ${a_gal}x² + ${b_gal}x + ${c_gal}\n\n`;
+
+    // Delta
+    let delta_gal = b_gal*b_gal - 4*a_gal*c_gal;
+    tekst_gal += `Delta = ${delta_gal}\n`;
+
+    // Miejsca zerowe
+    if (delta_gal > 0) {
+        let x1_gal = (-b_gal - Math.sqrt(delta_gal)) / (2 * a_gal);
+        let x2_gal = (-b_gal + Math.sqrt(delta_gal)) / (2 * a_gal);
+        tekst_gal += `x1 = ${x1_gal}\n`;
+        tekst_gal += `x2 = ${x2_gal}\n`;
+    } else if (delta_gal === 0) {
+        let x0_gal = -b_gal / (2 * a_gal);
+        tekst_gal += `x0 = ${x0_gal}\n`;
+    } else {
+        tekst_gal += "Brak miejsc zerowych (delta < 0)\n";
+    }
+
+    // Wierzchołek
+    let p_gal = -b_gal / (2 * a_gal);
+    let q_gal = -delta_gal / (4 * a_gal);
+
+    tekst_gal += `\nWierzchołek: W(${p_gal}, ${q_gal})\n`;
+
+    // Monotoniczność
+    if (a_gal > 0) {
+        tekst_gal += `Maleje: (-∞, ${p_gal}]\n`;
+        tekst_gal += `Rośnie: [${p_gal}, +∞)\n`;
+    } else {
+        tekst_gal += `Rośnie: (-∞, ${p_gal}]\n`;
+        tekst_gal += `Maleje: [${p_gal}, +∞)\n`;
+    }
+
+    // Wartość funkcji dla x = 10
+    let x10_gal = 10;
+    let f10_gal = a_gal*x10_gal*x10_gal + b_gal*x10_gal + c_gal;
+    tekst_gal += `\nf(10) = ${f10_gal}\n`;
+
+    // Postać kanoniczna
+    tekst_gal += `\nPostać kanoniczna: f(x) = ${a_gal}(x - ${p_gal})² + ${q_gal}\n`;
+
+    // Postać iloczynowa
+    if (delta_gal > 0) {
+        let x1_gal = (-b_gal - Math.sqrt(delta_gal)) / (2 * a_gal);
+        let x2_gal = (-b_gal + Math.sqrt(delta_gal)) / (2 * a_gal);
+        tekst_gal += `Postać iloczynowa: f(x) = ${a_gal}(x - ${x1_gal})(x - ${x2_gal})\n`;
+    } else if (delta_gal === 0) {
+        let x0_gal = -b_gal / (2 * a_gal);
+        tekst_gal += `Postać iloczynowa: f(x) = ${a_gal}(x - ${x0_gal})²\n`;
+    } else {
+        tekst_gal += `Postać iloczynowa: brak (delta < 0)\n`;
+    }
+
+    document.getElementById("wynik_gal").textContent = tekst_gal;
+}
+</script>
+
+</body>
+</html>
